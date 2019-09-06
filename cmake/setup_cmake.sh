@@ -3,6 +3,7 @@
 # variables
 bac_dir=`pwd`
 working_dir=$(dirname $0)
+cd $working_dir
 
 # error info
 something_broke=""
@@ -50,13 +51,12 @@ else
     do
         x_permission $target
     done
-    mv -f $cmake_dir/* /usr/
-    rm -r $cmake_dir
+    mv -vf $cmake_dir/* /usr/
+    rm -vr $cmake_dir
 fi
 
 # restore env
 cd $bac_dir
-# rm -rf $working_dir
 
 # exit
 if [ "" != "${something_broke}" ]; then

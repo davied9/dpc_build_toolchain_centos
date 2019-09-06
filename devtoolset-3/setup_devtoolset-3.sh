@@ -72,7 +72,6 @@ yum clean all
 
 # restore env
 cd $bac_dir
-# rm -rf $working_dir
 
 # exit
 if [ "" != "${something_broke}" ]; then
