@@ -37,22 +37,29 @@ else
     echo "##########################################################################################################"
     echo "# installing cmake-$cmake_version"
     echo "##########################################################################################################"
-    for cmake_package in `ls *.tar`
+    for cmake_package in `ls cmake*${cmake_version}*.tar`
     do
         break
     done
-    tar xf $cmake_package
-    cmake_dir=${cmake_package::-4}
-    for target in `ls $cmake_dir/bin/*`
-    do
-        x_permission $target
-    done
-    for target in `ls $cmake_dir/share/cmake-3.15/completions/*`
-    do
-        x_permission $target
-    done
-    mv -vf $cmake_dir/* /usr/
-    rm -vr $cmake_dir
+    if [ "" == "$cmake_package" ]; then
+        echo "[ERROR] cmake package not found (something like cmake*${cmake_version}*.tar)"
+        add_broke_info_if_failed "cmake package not found (something like cmake*${cmake_version}*.tar)"
+    else
+        echo "using cmake package $cmake_package"
+        tar xf $cmake_package
+        add_broke_info_if_failed "extracting cmake package failed"
+        cmake_dir=${cmake_package::`wc -c <<< $cmake_package`-5}
+        for target in `ls $cmake_dir/bin/*`
+        do
+            x_permission $target
+        done
+        for target in `ls $cmake_dir/share/cmake-3.15/completions/*`
+        do
+            x_permission $target
+        done
+        cp -vrf $cmake_dir/* /usr/
+        rm -rf $cmake_dir
+    fi
 fi
 
 # restore env

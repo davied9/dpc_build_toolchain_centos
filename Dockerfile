@@ -19,7 +19,7 @@ COPY ./scripts/entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod 777 /usr/bin/entrypoint.sh
 
 # install devtoolset-3
-COPY ./packages /tmp/devtoolset-3/
+COPY ./devtoolset-3/* /tmp/devtoolset-3/
 RUN sh /tmp/devtoolset-3/setup_devtoolset-3.sh
 
 # add develop user

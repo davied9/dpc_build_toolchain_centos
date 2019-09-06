@@ -29,14 +29,22 @@ show_broke_info() {
 DOWNLOAD_BEFORE_INSTALL=1
 
 # download && install devtoolset-3
+components="devtoolset-3-runtime-3.1-12.el6.x86_64.rpm;"
+components+="devtoolset-3-binutils-2.24-18.el6.x86_64.rpm;"
+# components+="devtoolset-3-binutils-devel-2.24-18.el6.x86_64.rpm;"
+components+="devtoolset-3-libstdc++-devel-4.9.2-6.2.el6.x86_64.rpm;"
+components+="devtoolset-3-gcc-4.9.2-6.2.el6.x86_64.rpm;"
+components+="devtoolset-3-gcc-c++-4.9.2-6.2.el6.x86_64.rpm;"
+# components+="devtoolset-3-gcc-gfortran-4.9.2-6.2.el6.x86_64.rpm;"
+IFS=";" read -ra components <<< "$components"
+
 if [ $DOWNLOAD_BEFORE_INSTALL == 1 ]; then
-    wget http://mirror.centos.org/centos/6/sclo/x86_64/rh/devtoolset-3/devtoolset-3-runtime-3.1-12.el6.x86_64.rpm
-    wget http://mirror.centos.org/centos/6/sclo/x86_64/rh/devtoolset-3/devtoolset-3-binutils-2.24-18.el6.x86_64.rpm
-    #wget http://mirror.centos.org/centos/6/sclo/x86_64/rh/devtoolset-3/devtoolset-3-binutils-devel-2.24-18.el6.x86_64.rpm
-    wget http://mirror.centos.org/centos/6/sclo/x86_64/rh/devtoolset-3/devtoolset-3-libstdc++-devel-4.9.2-6.2.el6.x86_64.rpm
-    wget http://mirror.centos.org/centos/6/sclo/x86_64/rh/devtoolset-3/devtoolset-3-gcc-4.9.2-6.2.el6.x86_64.rpm
-    wget http://mirror.centos.org/centos/6/sclo/x86_64/rh/devtoolset-3/devtoolset-3-gcc-c++-4.9.2-6.2.el6.x86_64.rpm
-    #wget http://mirror.centos.org/centos/6/sclo/x86_64/rh/devtoolset-3/devtoolset-3-gcc-gfortran-4.9.2-6.2.el6.x86_64.rpm
+    for com in ${components[@]}
+    do
+        com_url=http://mirror.centos.org/centos/6/sclo/x86_64/rh/devtoolset-3/$com
+        echo "downloading component $com from $com_url"
+        curl $com_url --output $com
+    done
 fi
 install_if_exist() {
     if [ -f $1 ]; then
@@ -58,11 +66,10 @@ install_if_exist() {
 echo "##########################################################################################################"
 echo "# installing devtoolset-3"
 echo "##########################################################################################################"
-install_if_exist devtoolset-3-runtime-3.1-12.el6.x86_64.rpm
-install_if_exist devtoolset-3-binutils-2.24-18.el6.x86_64.rpm
-install_if_exist devtoolset-3-libstdc++-devel-4.9.2-6.2.el6.x86_64.rpm
-install_if_exist devtoolset-3-gcc-4.9.2-6.2.el6.x86_64.rpm
-install_if_exist devtoolset-3-gcc-c++-4.9.2-6.2.el6.x86_64.rpm
+for com in ${components[@]}
+do
+    install_if_exist $com
+done
 
 # cleanup
 yum clean packages
