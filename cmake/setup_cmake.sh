@@ -25,8 +25,8 @@ show_broke_info() {
     done
 }
 x_permission() {
-    echo "permission +x : $1"
-    chmod +x $1
+    echo "permission 777 : $1"
+    chmod 777 $1
 }
 
 # configurations
@@ -57,7 +57,7 @@ else
         do
             x_permission $target
         done
-        cp -vrf $cmake_dir/* /usr/
+        cp -rf $cmake_dir/* /usr/
         rm -rf $cmake_dir
     fi
 fi

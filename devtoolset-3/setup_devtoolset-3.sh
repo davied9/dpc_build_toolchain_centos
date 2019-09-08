@@ -38,44 +38,42 @@ components+="devtoolset-3-gcc-c++-4.9.2-6.2.el6.x86_64.rpm;"
 # components+="devtoolset-3-gcc-gfortran-4.9.2-6.2.el6.x86_64.rpm;"
 IFS=";" read -ra components <<< "$components"
 
-if [ $DOWNLOAD_BEFORE_INSTALL == 1 ]; then
-    for com in ${components[@]}
-    do
-        com_url=http://mirror.centos.org/centos/6/sclo/x86_64/rh/devtoolset-3/$com
-        echo "downloading component $com from $com_url"
-        curl $com_url --output $com
-    done
-fi
-install_if_exist() {
-    if [ -f $1 ]; then
-        yum install -y $1
-        local result=$?
-        if [ 0 != $result ]; then
-            echo "[ERROR] failed installing of $1 ..."
-            add_broke_info "installation of $1"
-            return $result
-        fi
-        return 0
-    else
-        echo "[ERROR] $1 not exist ..."
-        add_broke_info "installation of $1"
-        return 1
-    fi
-}
-
 echo "##########################################################################################################"
 echo "# installing devtoolset-3"
 echo "##########################################################################################################"
 for com in ${components[@]}
 do
-    install_if_exist $com
+    # download if neccessary
+    if [ $DOWNLOAD_BEFORE_INSTALL == 1 ]; then
+        com_url=http://mirror.centos.org/centos/6/sclo/x86_64/rh/devtoolset-3/$com
+        echo "downloading component $com from $com_url"
+        curl $com_url --output $com
+        result=$?
+        if [ 0 != $result ]; then
+            echo "[ERROR] failed installing of $1 with code $result ..."
+            add_broke_info "installation of $1, code $result"
+            break
+        fi
+    fi
+    # install if pre-downloaded or downloaded successfully
+    if ! [ -f $com ]; then
+        echo "[ERROR] $1 not exist ..."
+        add_broke_info "installation of $1, package not exist"
+        break
+    fi
+    echo "installing component $com"
+    yum install -y $com
+    result=$?
+    rm -vf $com
+    if [ 0 != $result ]; then
+        echo "[ERROR] failed installing of $1 with code $result ..."
+        add_broke_info "installation of $1, code $result"
+        break
+    fi
+    # cleanup for each package installation
+    yum clean packages && yum clean headers && yum clean metadata && yum clean all
 done
 
-# cleanup
-yum clean packages
-yum clean headers
-yum clean metadata
-yum clean all
 
 # restore env
 cd $bac_dir
