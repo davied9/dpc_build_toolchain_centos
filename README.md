@@ -1,7 +1,7 @@
 # dpc_build_toolchain_centos
 dpc_build_toolchain_centos
 
-# environment matrix
+# Environment matrix
 
  * Linux-3.10.0-957.el7.x86_64-x86_64-with-centos-6.8-Final
  * Python : 2.6.6
@@ -14,3 +14,18 @@ dpc_build_toolchain_centos
  * Ninja : 1.9.0
  
 devtoolset-3 is packed
+
+# How to install
+
+build with 
+```
+docker build -t dpc_build_toolchain_centos:dev
+```
+or install with
+```
+docker pull davied9/dpc_build_toolchain_centos:latest
+```
+
+# More
+
+https://cloud.docker.com/repository/docker/davied9/dpc_build_toolchain_centos
