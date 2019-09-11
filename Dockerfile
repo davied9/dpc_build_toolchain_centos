@@ -14,6 +14,13 @@ RUN sh /tmp/devtoolset-3/setup_devtoolset-3.sh
 COPY ./cmake/* /tmp/cmake/
 RUN sh /tmp/cmake/setup_cmake.sh ${cmake_version}
 
+# install git
+RUN yum install -y git \
+    && yum clean packages \
+    && yum clean headers \
+    && yum clean metadata \
+    && yum clean all
+
 # install needed python packages
 RUN yum install -y python-argparse \
     && yum clean packages \
