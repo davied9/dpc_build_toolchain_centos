@@ -36,13 +36,7 @@ RUN chmod 777 /usr/bin/ninja
 COPY ./scripts/entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod 777 /usr/bin/entrypoint.sh
 
-# add develop user
-RUN adduser --password aa31415926 --no-create-home --user-group developer \
-    && mkdir /build_area \
-    && chown developer.developer /build_area
-
-USER developer
-WORKDIR /build_area
+WORKDIR /home
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 
