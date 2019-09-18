@@ -15,7 +15,7 @@ COPY ./cmake/* /tmp/cmake/
 RUN sh /tmp/cmake/setup_cmake.sh ${cmake_version}
 
 # install git
-RUN yum install -y git \
+RUN yum install -y git git-lfs \
     && yum clean packages \
     && yum clean headers \
     && yum clean metadata \
