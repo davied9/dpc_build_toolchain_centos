@@ -16,7 +16,8 @@ dpc_build_toolchain_centos
 | g++      | 4.9.2 20150212 (Red Hat 4.9.2-6) |
 | c++      | 4.9.2 20150212 (Red Hat 4.9.2-6) |
 | Ninja    | 1.9.0 |
-| Git      | 1.7.1 |
+| Git      | 2.9.3 |
+| Git LFS  | 2.8.0 |
  
 devtoolset-3 is packed
 
