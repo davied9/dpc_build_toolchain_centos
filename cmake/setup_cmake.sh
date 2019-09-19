@@ -30,40 +30,34 @@ x_permission() {
 }
 
 # configurations
-cmake_version=$1
+cmake_version=3.15.2
+cmake_sub_dir=cmake-3.15
+cmake_package=cmake-3.15.2-Linux-x86_64.tar
+cmake_dir=cmake-3.15.2-Linux-x86_64
 if [ "" == "$cmake_version" ]; then
     add_broke_info "installation of cmake, no version specified"
 else
     echo "##########################################################################################################"
     echo "# installing cmake-$cmake_version"
     echo "##########################################################################################################"
-    for cmake_package in `ls cmake*${cmake_version}*.tar`
+    echo "using cmake package $cmake_package"
+    tar xf $cmake_package
+    add_broke_info_if_failed "extracting cmake package failed"
+    for target in `ls $cmake_dir/bin/*`
     do
-        break
+        x_permission $target
     done
-    if [ "" == "$cmake_package" ]; then
-        echo "[ERROR] cmake package not found (something like cmake*${cmake_version}*.tar)"
-        add_broke_info_if_failed "cmake package not found (something like cmake*${cmake_version}*.tar)"
-    else
-        echo "using cmake package $cmake_package"
-        tar xf $cmake_package
-        add_broke_info_if_failed "extracting cmake package failed"
-        cmake_dir=${cmake_package::`wc -c <<< $cmake_package`-5}
-        for target in `ls $cmake_dir/bin/*`
-        do
-            x_permission $target
-        done
-        for target in `ls $cmake_dir/share/cmake-3.15/completions/*`
-        do
-            x_permission $target
-        done
-        cp -rf $cmake_dir/* /usr/
-        rm -rf $cmake_dir
-    fi
+    for target in `ls $cmake_dir/share/${cmake_sub_dir}/completions/*`
+    do
+        x_permission $target
+    done
+    cp -rf $cmake_dir/* /usr/
+    rm -rf $cmake_dir
 fi
 
 # restore env
 cd $bac_dir
+rm -rf $working_dir
 
 # exit
 if [ "" != "${something_broke}" ]; then
