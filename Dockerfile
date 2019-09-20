@@ -18,13 +18,6 @@ RUN sh /tmp/cmake/setup_cmake.sh 3.15.2
 COPY ./git/* /tmp/git/
 RUN sh /tmp/git/setup_git.sh
 
-# install git
-RUN yum install -y git git-lfs \
-    && yum clean packages \
-    && yum clean headers \
-    && yum clean metadata \
-    && yum clean all
-
 # install needed python packages
 COPY ./python/* /tmp/python/
 RUN sh /tmp/python/setup_python.sh
