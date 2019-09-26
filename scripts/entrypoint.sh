@@ -23,6 +23,7 @@ if [ "" == "$1" ]; then
     check_tool python
     check_tool git
     check_tool git-lfs
+    check_tool perl
 else
     # execute the command if any specified
     exec "$@"

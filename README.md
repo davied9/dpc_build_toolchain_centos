@@ -18,8 +18,16 @@ dpc_build_toolchain_centos
 | Ninja    | 1.9.0 |
 | Git      | 2.9.3 |
 | Git LFS  | 2.8.0 |
- 
-devtoolset-3 is packed
+| perl     | 5.10.1 |
+
+# Additional libraries
+
+| Tool     | Version |
+|:--------:|:-------:|
+| libpng   | 1.2.49 |
+| OpenBLAS | 0.3.7 |
+
+GCC CC g++ c++ is packed within redhat devtoolset-3
 
 # How to install
 

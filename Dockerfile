@@ -2,13 +2,19 @@ FROM centos:6.8
 
 USER root
 
-# install wget
-RUN yum install -y wget unzip dos2unix unix2dos \
+# install utilities && libraries
+RUN yum install -y \
+    wget unzip dos2unix unix2dos perl \
+    libpng-devel \
     && yum clean packages && yum clean headers && yum clean metadata && yum clean all
 
 # install devtoolset-3
 COPY ./devtoolset-3/* /tmp/devtoolset-3/
 RUN sh /tmp/devtoolset-3/setup_devtoolset-3.sh
+
+# install BLAS
+COPY ./BLAS/* /tmp/BLAS/
+RUN sh /tmp/BLAS/setup_blas.sh
 
 # install cmake
 COPY ./cmake/* /tmp/cmake/
