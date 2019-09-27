@@ -20,14 +20,14 @@ dpc_build_toolchain_centos
 | Git LFS  | 2.8.0 |
 | perl     | 5.10.1 |
 
+GCC CC g++ c++ is packed within redhat devtoolset-3
+
 # Additional libraries
 
-| Tool     | Version |
+| Library  | Version |
 |:--------:|:-------:|
 | libpng   | 1.2.49 |
 | OpenBLAS | 0.3.7 |
-
-GCC CC g++ c++ is packed within redhat devtoolset-3
 
 # How to install
 
